@@ -1,9 +1,12 @@
 package hr.ferit.brunozoric.taskie
 
 import android.app.Application
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 
 class Taskie: Application() {
+
+
 
     companion object {
         lateinit var instance: Taskie
@@ -14,5 +17,8 @@ class Taskie: Application() {
         super.onCreate()
         instance = this
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
     }
+
+
 }

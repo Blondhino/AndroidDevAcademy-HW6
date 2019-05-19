@@ -2,7 +2,9 @@ package hr.ferit.brunozoric.taskie.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.ferit.brunozoric.taskie.R
@@ -23,6 +25,8 @@ class TasksFragment : BaseFragment(), AddTaskFragmentDialog.TaskAddedListener {
     private val adapter by lazy { TaskAdapter {onItemSelected(it)} }
 
     override fun getLayoutResourceId() = R.layout.fragment_tasks
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

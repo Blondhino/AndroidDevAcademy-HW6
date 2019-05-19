@@ -7,4 +7,8 @@
     <dimen name="detailsPriorityHeight">100dp</dimen>
     <dimen name="itemPriorityWidth">36dp</dimen>
     <dimen name="itemPriorityHeight">36dp</dimen>
+    <dimen name="mediumMargin">16dp</dimen>
+    <dimen name="bigMargin">50dp</dimen>
+    <dimen name="TitleSize">25sp</dimen>
+    <dimen name="smallMargin">5dp</dimen>
 </resources>

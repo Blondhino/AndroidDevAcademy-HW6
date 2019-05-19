@@ -10,4 +10,10 @@
     <string name="emptyFields">Check your inputs</string>
     <string name="noTaskFound">No such task found</string>
     <string name="no_data">No data! :(</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_application_title">About Application</string>
+    <string name="hello_it_s_me_mario">Hello it\'s me Mario</string>
+    <string name="about_author_title">About Author</string>
 </resources>
