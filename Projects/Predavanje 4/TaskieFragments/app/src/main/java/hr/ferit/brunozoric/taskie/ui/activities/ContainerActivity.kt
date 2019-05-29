@@ -3,8 +3,10 @@ package hr.ferit.brunozoric.taskie.ui.activities
 import hr.ferit.brunozoric.taskie.R
 import hr.ferit.brunozoric.taskie.common.EXTRA_SCREEN_TYPE
 import hr.ferit.brunozoric.taskie.common.EXTRA_TASK_ID
+import hr.ferit.brunozoric.taskie.common.invisible
 import hr.ferit.brunozoric.taskie.ui.activities.base.BaseActivity
 import hr.ferit.brunozoric.taskie.ui.fragments.TaskDetailsFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class ContainerActivity: BaseActivity() {
@@ -13,7 +15,8 @@ class ContainerActivity: BaseActivity() {
 
     override fun setUpUi() {
         val screenType = intent.getStringExtra(EXTRA_SCREEN_TYPE)
-        val id = intent.getIntExtra(EXTRA_TASK_ID, -1)
+        val id:Long = intent.getLongExtra(EXTRA_TASK_ID, -1)
+        bottomNavigation.invisible()
         if (screenType.isNotEmpty()) {
             when (screenType) {
                 SCREEN_TASK_DETAILS -> showFragment(TaskDetailsFragment.newInstance(id))

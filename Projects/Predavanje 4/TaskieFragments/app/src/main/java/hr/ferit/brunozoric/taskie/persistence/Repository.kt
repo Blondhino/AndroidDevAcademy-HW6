@@ -1,3 +1,4 @@
+/*
 package hr.ferit.brunozoric.taskie.persistence
 
 import hr.ferit.brunozoric.taskie.model.Priority
@@ -27,4 +28,4 @@ object Repository{
     }
 
     fun getAllTasks() = tasks
-}
+}*/

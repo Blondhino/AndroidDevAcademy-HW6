@@ -10,5 +10,8 @@
     <dimen name="mediumMargin">16dp</dimen>
     <dimen name="bigMargin">50dp</dimen>
     <dimen name="TitleSize">25sp</dimen>
+    <dimen name="titleSize">25sp</dimen>
     <dimen name="smallMargin">5dp</dimen>
+    <dimen name="PriorityHeight">50dp</dimen>
+    <dimen name="descriptionTextSize">18dp</dimen>
 </resources>

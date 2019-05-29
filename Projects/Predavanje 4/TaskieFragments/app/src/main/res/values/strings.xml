@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Taskie</string>
+    <string name="app_name">Taskie Repo</string>
     <string name="newTaskHeadingText">New task:</string>
     <string name="newTaskTitleInputHint">Enter task title</string>
     <string name="newTaskDescriptionInputHint">Enter task description</string>
@@ -16,4 +16,10 @@
     <string name="about_application_title">About Application</string>
     <string name="hello_it_s_me_mario">Hello it\'s me Mario</string>
     <string name="about_author_title">About Author</string>
+    <string name="set_a_new_title">Set a new Title:</string>
+    <string name="new_title_here">New Title Here</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="set_new_description">Set new Description:</string>
+    <string name="new_description_here">New Description Here</string>
 </resources>

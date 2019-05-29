@@ -1,10 +1,13 @@
 package hr.ferit.brunozoric.taskie.ui.activities
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import hr.ferit.brunozoric.taskie.R
+import hr.ferit.brunozoric.taskie.common.visible
 import hr.ferit.brunozoric.taskie.ui.activities.base.BaseActivity
 import hr.ferit.brunozoric.taskie.ui.fragments.AboutFragment
 import hr.ferit.brunozoric.taskie.ui.fragments.TasksFragment
@@ -35,16 +38,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         replaceFragment(TasksFragment())
 
 
     }
 
+
     private fun replaceFragment(fragment: Fragment){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentContainer, fragment)
         fragmentTransaction.commit()
     }
+
 }

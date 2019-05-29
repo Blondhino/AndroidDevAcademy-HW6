@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,26 +8,29 @@
         tools:context=".ui.fragments.TaskDetailsFragment">
     <TextView
             android:id="@+id/detailsTaskTitle"
-            android:layout_width="@dimen/match_constraint"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/HeadingTextView"/>
+           android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:textSize="@dimen/titleSize"
+            android:fontFamily="sans-serif"
+            />
+
     <TextView
             android:id="@+id/detailsTaskDescription"
-            android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="@id/detailsTaskTitle"
-            app:layout_constraintRight_toRightOf="@id/detailsTaskTitle"
-            app:layout_constraintTop_toBottomOf="@id/detailsTaskTitle"
-            android:layout_marginTop="@dimen/marginLarge"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/detailsPriorityView"
+            android:textSize="@dimen/descriptionTextSize"
+            />
+
     <ImageView
             android:id="@+id/detailsPriorityView"
-            android:layout_width="@dimen/detailsPriorityWidth"
-            android:layout_height="@dimen/detailsPriorityHeight"
-            app:layout_constraintLeft_toLeftOf="@id/detailsTaskTitle"
-            app:layout_constraintRight_toRightOf="@id/detailsTaskTitle"
-            app:layout_constraintTop_toBottomOf="@id/detailsTaskDescription"/>
+            android:layout_marginTop="@dimen/smallMargin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/PriorityHeight"
+            android:layout_below="@id/detailsTaskTitle"
+            android:layout_centerHorizontal="true"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

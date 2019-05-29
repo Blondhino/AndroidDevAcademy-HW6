@@ -12,16 +12,19 @@ import hr.ferit.brunozoric.taskie.R
 import hr.ferit.brunozoric.taskie.common.displayToast
 import hr.ferit.brunozoric.taskie.model.Priority
 import hr.ferit.brunozoric.taskie.model.Task
-import hr.ferit.brunozoric.taskie.persistence.Repository
+import hr.ferit.brunozoric.taskie.persistence.TaskPrefs
+import hr.ferit.brunozoric.taskie.persistence.TaskPrefs.KEY
+import hr.ferit.brunozoric.taskie.persistence.TaskRoomRepo
 import kotlinx.android.synthetic.main.fragment_dialog_new_task.*
+
 
 class AddTaskFragmentDialog: DialogFragment() {
 
     private var taskAddedListener: TaskAddedListener? = null
-    private val repository = Repository
+    private val repository = TaskRoomRepo()
 
     interface TaskAddedListener{
-        fun onTaskAdded(task: Task)
+        fun onTaskAdded()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +53,17 @@ class AddTaskFragmentDialog: DialogFragment() {
     private fun initUi(){
         context?.let {
             prioritySelector.adapter = ArrayAdapter<Priority>(it, android.R.layout.simple_spinner_dropdown_item, Priority.values())
-            prioritySelector.setSelection(0)
+            when (lastPriority()){
+                "LOW" -> prioritySelector.setSelection(0)
+                "MEDIUM" -> prioritySelector.setSelection(1)
+                "HIGH" -> prioritySelector.setSelection(2)
+            }
         }
+    }
+
+    private fun lastPriority(): String {
+        return TaskPrefs.getString(KEY,"LOW")!!
+
     }
 
     private fun initListeners(){
@@ -67,12 +79,24 @@ class AddTaskFragmentDialog: DialogFragment() {
         val title = newTaskTitleInput.text.toString()
         val description = newTaskDescriptionInput.text.toString()
         val priority = prioritySelector.selectedItem as Priority
-        val task = repository.save(title, description, priority)
+        val task = repository.addTask(
+            Task(
+                title = title,
+                description = description,
+                priority = priority
 
+            )
+        )
+
+        rememberLastPriority()
         clearUi()
 
-        taskAddedListener?.onTaskAdded(task)
+        taskAddedListener?.onTaskAdded()
         dismiss()
+    }
+
+    private fun rememberLastPriority() {
+        TaskPrefs.store(KEY, prioritySelector.selectedItem.toString())
     }
 
     private fun clearUi() {
