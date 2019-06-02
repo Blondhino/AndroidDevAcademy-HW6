@@ -15,15 +15,6 @@
             android:textSize="@dimen/titleSize"
             android:fontFamily="sans-serif"
             />
-
-    <TextView
-            android:id="@+id/detailsTaskDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/detailsPriorityView"
-            android:textSize="@dimen/descriptionTextSize"
-            />
-
     <ImageView
             android:id="@+id/detailsPriorityView"
             android:layout_marginTop="@dimen/smallMargin"
@@ -32,5 +23,27 @@
             android:layout_below="@id/detailsTaskTitle"
             android:layout_centerHorizontal="true"
             />
+
+    <TextView
+            android:id="@+id/detailsTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detailsPriorityView"
+            android:textSize="@dimen/descriptionTextSize"
+            />
+
+
+    <Button
+            android:id="@+id/editTaskButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/edit_task_Button"
+            android:textAllCaps="false"
+            />
+
+
+
+
 
 </RelativeLayout>

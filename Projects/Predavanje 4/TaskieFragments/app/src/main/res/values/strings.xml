@@ -22,4 +22,14 @@
     <string name="ok">Ok</string>
     <string name="set_new_description">Set new Description:</string>
     <string name="new_description_here">New Description Here</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="login">Login</string>
+    <string name="hint_name">Name</string>
+    <string name="register">Register</string>
+    <string name="go_to_login">Go to login</string>
+    <string name="edit_task_Button">Edit This Task</string>
+    <string name="update_task">Update Task :</string>
+
+
 </resources>

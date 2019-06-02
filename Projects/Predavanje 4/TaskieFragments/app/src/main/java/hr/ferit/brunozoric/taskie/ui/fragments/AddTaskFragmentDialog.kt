@@ -2,26 +2,40 @@ package hr.ferit.brunozoric.taskie.ui.fragments
 
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import hr.ferit.brunozoric.taskie.R
+import hr.ferit.brunozoric.taskie.Taskie
 import hr.ferit.brunozoric.taskie.common.displayToast
+import hr.ferit.brunozoric.taskie.model.BackendFactory
+import hr.ferit.brunozoric.taskie.model.BackendTask
 import hr.ferit.brunozoric.taskie.model.Priority
 import hr.ferit.brunozoric.taskie.model.Task
-import hr.ferit.brunozoric.taskie.persistence.TaskPrefs
-import hr.ferit.brunozoric.taskie.persistence.TaskPrefs.KEY
+import hr.ferit.brunozoric.taskie.model.request.AddTaskRequest
+import hr.ferit.brunozoric.taskie.networking.interactors.TaskieInteractor
+import hr.ferit.brunozoric.taskie.networking.interactors.TaskieInteractorImpl
+import hr.ferit.brunozoric.taskie.prefs.TaskPrefs
+import hr.ferit.brunozoric.taskie.prefs.TaskPrefs.KEY
 import hr.ferit.brunozoric.taskie.persistence.TaskRoomRepo
+import hr.ferit.brunozoric.taskie.ui.adapters.TaskAdapter
+import kotlinx.android.synthetic.main.fragment_change_priority_dialog.*
 import kotlinx.android.synthetic.main.fragment_dialog_new_task.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class AddTaskFragmentDialog: DialogFragment() {
 
     private var taskAddedListener: TaskAddedListener? = null
     private val repository = TaskRoomRepo()
+    private val interactor = BackendFactory.getTaskieInteractor()
 
     interface TaskAddedListener{
         fun onTaskAdded()
@@ -48,6 +62,7 @@ class AddTaskFragmentDialog: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initUi()
         initListeners()
+
     }
 
     private fun initUi(){
@@ -79,19 +94,12 @@ class AddTaskFragmentDialog: DialogFragment() {
         val title = newTaskTitleInput.text.toString()
         val description = newTaskDescriptionInput.text.toString()
         val priority = prioritySelector.selectedItem as Priority
-        val task = repository.addTask(
-            Task(
-                title = title,
-                description = description,
-                priority = priority
-
-            )
-        )
+        interactor.save(AddTaskRequest(title,description,priority.getIntKey()), getSaveCallback())
 
         rememberLastPriority()
         clearUi()
 
-        taskAddedListener?.onTaskAdded()
+
         dismiss()
     }
 
@@ -112,4 +120,18 @@ class AddTaskFragmentDialog: DialogFragment() {
             return AddTaskFragmentDialog()
         }
     }
+
+
+    private fun getSaveCallback(): Callback<BackendTask> = object  : Callback<BackendTask> {
+        override fun onFailure(call: Call<BackendTask>, t: Throwable) {
+
+        }
+
+        override fun onResponse(call: Call<BackendTask>, response: Response<BackendTask>) {
+            Log.e("TASK :",response.body().toString())
+            taskAddedListener?.onTaskAdded()
+        }
+
+    }
+
 }

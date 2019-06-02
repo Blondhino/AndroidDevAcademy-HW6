@@ -2,9 +2,9 @@ package hr.ferit.brunozoric.taskie
 
 import android.app.Application
 import android.content.Context
-import android.widget.Toast
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import hr.ferit.brunozoric.taskie.Taskie.Companion.instance
+import hr.ferit.brunozoric.taskie.prefs.TaskPrefs.PREFERENCES_NAME
 
 class Taskie: Application() {
 
@@ -24,6 +24,6 @@ class Taskie: Application() {
 
     }
 
-
+    fun providePreferences(): SharedPreferences = instance.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
 }

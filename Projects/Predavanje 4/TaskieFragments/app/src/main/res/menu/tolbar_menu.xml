@@ -9,8 +9,14 @@
             />
 
     <item
-            android:id="@+id/navSortByPriority"
-            android:title="Sort Tasks By Priority"
+            android:id="@+id/navRefresh"
+            android:title="Refresh Data"
+            app:showAsAction="never"
+            />
+
+    <item
+            android:id="@+id/navLogOut"
+            android:title="Log Out"
             app:showAsAction="never"
             />
 

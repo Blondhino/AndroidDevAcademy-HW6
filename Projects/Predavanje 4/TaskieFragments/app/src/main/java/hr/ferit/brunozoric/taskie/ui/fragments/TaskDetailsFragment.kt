@@ -2,29 +2,34 @@ package hr.ferit.brunozoric.taskie.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import hr.ferit.brunozoric.taskie.R
+import hr.ferit.brunozoric.taskie.Taskie
 import hr.ferit.brunozoric.taskie.common.EXTRA_TASK_ID
 import hr.ferit.brunozoric.taskie.common.displayToast
+import hr.ferit.brunozoric.taskie.model.BackendFactory
+import hr.ferit.brunozoric.taskie.model.BackendTask
+import hr.ferit.brunozoric.taskie.model.Priority
 import hr.ferit.brunozoric.taskie.model.Task
+import hr.ferit.brunozoric.taskie.model.response.GetTaskResponse
 import hr.ferit.brunozoric.taskie.persistence.TaskRoomRepo
+import hr.ferit.brunozoric.taskie.ui.adapters.TaskAdapter
 import hr.ferit.brunozoric.taskie.ui.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_task_details.*
+import retrofit2.Call
+import retrofit2.Response
+import javax.security.auth.callback.Callback
 
-class TaskDetailsFragment : BaseFragment(), ChangePriorityDialog.PriorityChangedListener, ChangeTitleDialog.TitleChangedListener, ChangeDescriptionDialog.DescriptionChangedListener {
-    override fun onDescriptionChanged() {
-         detailsTaskDescription.text= repository.getTask(taskID).description
+class TaskDetailsFragment : BaseFragment(), UpdateTaskFragmentDialog.UpdateListenr {
+
+
+    private var taskID:String = String()
+    private var interactor = BackendFactory.getTaskieInteractor()
+
+
+    override fun onTaskUpdatedListener() {
+      tryDisplayTask(taskID)
     }
-
-    override fun onTitleChanged() {
-        detailsTaskTitle.text = repository.getTask(taskID).title
-    }
-
-    override fun onPriorityChanged() {
-        detailsPriorityView.setBackgroundResource(repository.getTask(taskID).priority.getColor())
-    }
-
-    private val repository = TaskRoomRepo()
-    private var taskID:Long = NO_TASK
 
 
     override fun getLayoutResourceId(): Int {
@@ -33,7 +38,7 @@ class TaskDetailsFragment : BaseFragment(), ChangePriorityDialog.PriorityChanged
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getLong(EXTRA_TASK_ID)?.let { taskID = it }
+        arguments?.getString(EXTRA_TASK_ID)?.let { taskID = it }
         tryDisplayTask(taskID)
         setListeners()
 
@@ -43,55 +48,58 @@ class TaskDetailsFragment : BaseFragment(), ChangePriorityDialog.PriorityChanged
     }
 
     private fun setListeners() {
-        detailsPriorityView.setOnClickListener { startChangePriorityDialog(repository.getTask(taskID)) }
-        detailsTaskTitle.setOnClickListener { startChangeTitleDialog(repository.getTask(taskID)) }
-        detailsTaskDescription.setOnClickListener { startChangeDescriptionDialog(repository.getTask(taskID)) }
+     editTaskButton.setOnClickListener { startUpdateDialog() }
     }
 
-    private fun startChangeDescriptionDialog(task: Task) {
-        var dialog = ChangeDescriptionDialog.newInstance()
-        dialog.task=task
-        dialog.setDescriptionChangedListener(this)
-        dialog.show(childFragmentManager,dialog.tag)
-    }
-
-    private fun startChangeTitleDialog(task :Task) {
-        var dialog = ChangeTitleDialog.newInstance()
-        dialog.task=task
-        dialog.setTitleChangedListener(this)
-        dialog.show(childFragmentManager,dialog.tag)
+    private fun startUpdateDialog() {
+        val dialog = UpdateTaskFragmentDialog.newInstance()
+        dialog.setTaskUpdatedListener(this)
+        dialog.taskId =taskID
+        dialog.show(childFragmentManager, dialog.tag)
     }
 
 
-    private fun tryDisplayTask(id: Long) {
+
+
+
+    private fun tryDisplayTask(id: String) {
         try {
-            val task = repository.getTask(id)
-            displayTask(task)
+            interactor.getTaskById(id,getTaskByIdCallBack())
+
         } catch (e: NoSuchElementException) {
             context?.displayToast(getString(R.string.noTaskFound))
         }
     }
 
-    private fun displayTask(task: Task) {
-        detailsTaskTitle.text = task.title
-        detailsTaskDescription.text = task.description
-        detailsPriorityView.setBackgroundResource(task.priority.getColor())
-    }
-    private fun startChangePriorityDialog(task :Task) {
-        var dialog = ChangePriorityDialog.newInstance()
-        dialog.task=task
-        dialog.setPriorityChangedListener(this)
-        dialog.show(childFragmentManager, dialog.tag)
+    private fun getTaskByIdCallBack(): retrofit2.Callback<BackendTask> = object  : retrofit2.Callback<BackendTask>{
+        override fun onFailure(call: Call<BackendTask>, t: Throwable) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onResponse(call: Call<BackendTask>, response: Response<BackendTask>) {
+            detailsTaskTitle.text = response.body()?.title
+            detailsTaskDescription.text=response.body()?.content
+           detailsPriorityView.setBackgroundResource(when(response.body()?.taskPriority)
+           {
+               0 -> {Priority.LOW.getColor()}
+               1 -> {Priority.MEDIUM.getColor()}
+               2 -> {Priority.HIGH.getColor()}
+                else -> {Priority.LOW.getColor()}
+           }
+
+
+            )
+        }
 
     }
+
 
 
 
     companion object {
-        const val NO_TASK :Long = -1
 
-        fun newInstance(taskId: Long): TaskDetailsFragment {
-            val bundle = Bundle().apply { putLong(EXTRA_TASK_ID, taskId) }
+        fun newInstance(taskId: String): TaskDetailsFragment {
+            val bundle = Bundle().apply { putString(EXTRA_TASK_ID, taskId) }
             return TaskDetailsFragment().apply { arguments = bundle }
         }
     }

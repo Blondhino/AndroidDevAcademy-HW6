@@ -15,7 +15,7 @@ class ContainerActivity: BaseActivity() {
 
     override fun setUpUi() {
         val screenType = intent.getStringExtra(EXTRA_SCREEN_TYPE)
-        val id:Long = intent.getLongExtra(EXTRA_TASK_ID, -1)
+        val id:String = intent.getStringExtra(EXTRA_TASK_ID)
         bottomNavigation.invisible()
         if (screenType.isNotEmpty()) {
             when (screenType) {

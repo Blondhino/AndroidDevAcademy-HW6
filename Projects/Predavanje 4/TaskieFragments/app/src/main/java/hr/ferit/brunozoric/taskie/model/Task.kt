@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 
     @PrimaryKey(autoGenerate = true)
     var taskDbId : Long? = null,
-    var id: Int = 0,
+    var BackendId: String? = null,
     val title: String,
     val description: String,
     val priority: Priority
